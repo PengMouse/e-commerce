@@ -76,7 +76,7 @@ const ViewPage = () => {
 			flexDirection="column"
 			justifyContent="center"
 			alignItems="start"
-			py={20}
+			py={{ base: 10, lg: 20 }}
 		>
 			<Stack direction="row" align="center" mb={10} onClick={() => router.back()} cursor="pointer">
 				<Icon as={CgArrowLeft} color="black" w={7} h={7} />
@@ -149,7 +149,7 @@ const ViewPage = () => {
 					)}
 
 					<Box h="2px" w="full" bg="gray.100" mb={6} mt={3} />
-					<Flex gap={{ base: 2, lg: 10 }}>
+					<Flex gap={{ sm: 20 }} justify={{ base: "space-between", sm: "unset" }}>
 						{/* sizes */}
 						{!isData?.price ? (
 							<Skeleton
@@ -347,10 +347,11 @@ const ViewPage = () => {
 									color="white"
 									variant="solid"
 									fontSize="lg"
-									px={8}
-									py={5}
+									px={10}
+									py={7}
 									_hover={{ bg: "#222222" }}
 									transition="background-color ease-in-out 0.3s"
+									rounded="2xl"
 								>
 									Add to cart
 								</Button>

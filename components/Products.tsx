@@ -19,11 +19,11 @@ const Products = () => {
 	}, [isData]);
 
 	return (
-		<Box maxW="1360px" w="full" mx="auto" px={{ base: 6, lg: 10 }} py={{ base: 10, lg: 20 }}>
+		<Box maxW="1360px" w="full" mx="auto" px={{ base: 3, sm: 6, lg: 10 }} py={{ base: 10, lg: 20 }}>
 			<Text fontSize="4xl" fontFamily="greg" mb={6}>
 				Products
 			</Text>
-			<SimpleGrid columns={{ base: 1, sm: 2, lg: 3, xl: 4 }} gap={4} w="full">
+			<SimpleGrid columns={{ base: 2, lg: 3, xl: 4 }} gap={{ base: 2, sm: 4 }} w="full">
 				{!isData
 					? Array(12)
 							.fill("")

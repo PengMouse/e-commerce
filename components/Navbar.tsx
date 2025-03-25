@@ -21,7 +21,7 @@ const Navbar = () => {
 						fontFamily="greg"
 						p={3}
 					>
-						<Text mt="3px">0</Text>
+						<Text mt="1px">0</Text>
 					</Circle>
 				</Box>
 			</Box>

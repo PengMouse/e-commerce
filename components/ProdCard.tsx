@@ -70,18 +70,22 @@ const ProdCard = ({ img, name, rating, quantity, price, link }: any) => {
 					<Text fontFamily="greg" fontSize="lg" lineClamp={1} mt={3} color="black">
 						{name}
 					</Text>
-					<Flex gap={2} align="center" direction="flex">
-						<Stack direction="row" align="center">
+					<Flex
+						gap={2}
+						align={{ base: "start", sm: "center" }}
+						direction={{ base: "column", sm: "row" }}
+					>
+						<Stack direction={{ base: "column", sm: "row" }} align={{ base: "start", sm: "center" }}>
 							<ReactStars count={5} size={20} color2={"#F97316"} edit={false} value={rating} />
-							<Text fontFamily="greg" fontSize="md" mt={1} color="black">
-								{rating}
+							<Text fontFamily="greg" fontSize="md" mt={{ sm: 1 }} color="black">
+								{rating}{" "}
+								<Text fontFamily="greg" fontSize="md" opacity={0.5} mt={{ sm: 1 }} color="black" as="span">
+									({quantity})
+								</Text>
 							</Text>
 						</Stack>
-						<Text fontFamily="greg" fontSize="md" opacity={0.5} mt={1} color="black">
-							({quantity})
-						</Text>
 					</Flex>
-					<Text fontSize="2xl" fontFamily="gmid" mt={2} color="black">
+					<Text fontSize="2xl" fontFamily="gmid" mt={{ base: 2 }} color="black">
 						${price}
 					</Text>
 				</Box>
