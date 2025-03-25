@@ -32,7 +32,7 @@ const Products = () => {
 								<Skeleton
 									rounded="2xl"
 									variant="shine"
-									minW="200px"
+									minW={{ base: "50px", sm: "200px" }}
 									height="250px"
 									css={{
 										"--start-color": "colors.gray.50",
@@ -56,6 +56,7 @@ const Products = () => {
 									quantity={i?.rating?.count}
 									price={i?.price}
 									link={`/${i?.title}/${i?.id}`}
+									index={index + 1}
 								/>
 							</Box>
 					  ))}

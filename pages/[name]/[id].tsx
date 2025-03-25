@@ -79,7 +79,7 @@ const ViewPage = () => {
 			py={{ base: 10, lg: 20 }}
 		>
 			<Stack direction="row" align="center" mb={10} onClick={() => router.back()} cursor="pointer">
-				<Icon as={CgArrowLeft} color="black" w={7} h={7} />
+				<Icon as={CgArrowLeft} color="black" w={7} h={7} mt="1px" />
 				<Box fontFamily="greg" color="black" fontSize="xl">
 					Back
 				</Box>

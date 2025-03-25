@@ -60,14 +60,14 @@ const ProdCard = ({ img, name, rating, quantity, price, link }: any) => {
 			</Box>
 			<Link
 				href={link}
-				w="full"
+				w={{ base: "fit-content", sm: "full" }}
 				_focus={{
 					focusRingWidth: 0,
 				}}
 				_hover={{ textDecoration: "none" }}
 			>
-				<Box>
-					<Text fontFamily="greg" fontSize="lg" lineClamp={1} mt={3} color="black">
+				<Box w="fit-content">
+					<Text fontFamily="greg" fontSize="lg" lineClamp={1} mt={3} color="black" w="fit-content">
 						{name}
 					</Text>
 					<Flex
@@ -85,7 +85,7 @@ const ProdCard = ({ img, name, rating, quantity, price, link }: any) => {
 							</Text>
 						</Stack>
 					</Flex>
-					<Text fontSize="2xl" fontFamily="gmid" mt={{ base: 2 }} color="black">
+					<Text fontSize="2xl" fontFamily="gmid" mt={{ base: 2 }} color="black" w="fit-content">
 						${price}
 					</Text>
 				</Box>
