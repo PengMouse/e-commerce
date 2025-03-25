@@ -1,0 +1,53 @@
+body {
+	width: 100%;
+	min-height: "100vh";
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: #fcfcfc;
+	color: black;
+}
+body,
+#__next {
+	width: 100%;
+	min-height: 100vh;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	scrollbar-width: thin;
+	background-color: white;
+}
+html {
+	scroll-behavior: smooth;
+}
+
+@font-face {
+	font-family: "gthin";
+	font-display: swap;
+	src: url("../components/fonts/gthin.ttf") format("truetype");
+}
+@font-face {
+	font-family: "glight";
+	font-display: swap;
+	src: url("../components/fonts/glight.ttf") format("truetype");
+}
+@font-face {
+	font-family: "greg";
+	font-display: swap;
+	src: url("../components/fonts/gregular.ttf") format("truetype");
+}
+@font-face {
+	font-family: "gmid";
+	font-display: swap;
+	src: url("../components/fonts/gmedium.ttf") format("truetype");
+}
+@font-face {
+	font-family: "gsemibold";
+	font-display: swap;
+	src: url("../components/fonts/gsemibold.ttf") format("truetype");
+}
+@font-face {
+	font-family: "gbold";
+	font-display: swap;
+	src: url("../components/fonts/gbold.ttf") format("truetype");
+}
