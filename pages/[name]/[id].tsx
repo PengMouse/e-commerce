@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
@@ -44,10 +45,6 @@ const ViewPage = () => {
 	const { favItems } = useSelector((state: any) => state.favorite);
 	const { items } = useSelector((state: any) => state.cart);
 
-	console.log(items[0]);
-
-	// console.log(items);
-
 	const handleNotification = (status: any, title: any, description: any) => {
 		toaster.create({
 			title: `${title}`,
@@ -68,7 +65,7 @@ const ViewPage = () => {
 	};
 
 	const handleAddToCart = (data: any, name: any) => {
-		dispatch(addItem({ ...data, color: activeColor, size: activeSize }));
+		dispatch(addItem({ ...data, color: activeColor, size: activeSize, quantity: qty }));
 		handleNotification("info", "🤑 Item added to cart", `${name}`);
 	};
 
@@ -86,6 +83,15 @@ const ViewPage = () => {
 	const handleDecrease = (id: any) => {
 		dispatch(decreaseItem(id));
 		handleNotification("info", "😏 Item removed from cart", `${isData?.title}`);
+	};
+	const [qty, setQty] = useState<any>(1);
+
+	const increase = () => {
+		setQty(qty + 1);
+	};
+
+	const decrease = () => {
+		setQty(qty - 1);
 	};
 	const handleClearCart = () => {
 		dispatch(clearCart());
@@ -109,8 +115,8 @@ const ViewPage = () => {
 	}, [id]);
 
 	useEffect(() => {
-		console.log(isData);
-	}, [isData]);
+		console.log(items);
+	}, [items]);
 
 	return (
 		<Box
@@ -351,7 +357,10 @@ const ViewPage = () => {
 								>
 									{/* counter */}
 
-									<Box onClick={() => handleDecrease(isData?.id)}>
+									<Box
+										// onClick={() => handleDecrease(isData?.id)}
+										onClick={decrease}
+									>
 										<Button
 											bg="gray.50"
 											py={2}
@@ -361,15 +370,20 @@ const ViewPage = () => {
 											transition=" ease-in-out  0.3s"
 											color="black"
 											cursor="pointer"
-											disabled={items?.length === 0 || undefined}
+											// disabled={items?.length === 0 || undefined}
+											disabled={qty === 1}
 										>
 											<Icon as={FiMinus} w={6} h={6} fontFamily="greg" />
 										</Button>
 									</Box>
 									<Text color="black" fontFamily="greg" fontSize="lg">
-										{items[0]?.quantity ? items[0]?.quantity : 0}
+										{/* {items[0]?.quantity ? items[0]?.quantity : 0} */}
+										{qty}
 									</Text>
-									<Box onClick={() => handleIncrease(isData?.id)}>
+									<Box
+										// onClick={() => handleIncrease(isData?.id)}
+										onClick={increase}
+									>
 										<Button
 											bg="gray.50"
 											py={2}

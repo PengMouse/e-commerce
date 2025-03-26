@@ -28,7 +28,9 @@ export const Toaster = () => {
 								</Toast.Title>
 							)}
 							{toast.description && (
-								<Toast.Description fontFamily="glight">{toast.description}</Toast.Description>
+								<Toast.Description fontFamily="glight" lineClamp={1}>
+									{toast.description}
+								</Toast.Description>
 							)}
 						</Stack>
 						{toast.action && <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>}

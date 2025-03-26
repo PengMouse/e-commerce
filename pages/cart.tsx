@@ -25,7 +25,7 @@ const Cart = () => {
 	};
 
 	const handleCheckOut = () => {
-		if (items?.length > 1) {
+		if (items?.length >= 1) {
 			handleNotification("info", "Hmm, enu po 😂", "No go warm eba chop");
 		} else {
 			handleNotification("info", "Gadus😂", "Wetin you wan checkout?");
@@ -37,7 +37,7 @@ const Cart = () => {
 	useEffect(() => {
 		const getTotal = items?.map((item: any) => item.quantity * item.price);
 		const sum = getTotal?.reduce((acc: any, curr: any) => acc + curr, 0);
-		setSum(sum);
+		setSum(parseFloat(sum.toFixed(2)));
 	}, [items]);
 
 	useEffect(() => {

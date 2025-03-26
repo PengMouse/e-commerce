@@ -10,10 +10,10 @@ const favoriteSlice = createSlice({
 	initialState,
 	reducers: {
 		toggleFavorite: (state: any, action: any) => {
-			const existingItem = state.favItems.find((item: any) => item.id === action.payload);
+			const existingItem = state.favItems.find((item: any) => item.id === action.payload.id);
 			if (existingItem) {
 				existingItem.favorite = !existingItem.favorite;
-				state.favItems = state.favItems.filter((item: any) => item.id !== action.payload);
+				state.favItems = state.favItems.filter((item: any) => item.id !== action.payload.id);
 			} else {
 				state.favItems.push({ ...action.payload, favorite: true });
 			}

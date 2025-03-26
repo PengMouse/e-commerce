@@ -14,8 +14,15 @@ const Navbar = () => {
 		<Box p={6} bg="gray.50">
 			<Box maxW="1360px" w="full" mx="auto" px={{ base: 6, lg: 10 }}>
 				<Flex align="center" justify="space-between">
-					<Link href="/" _hover={{ textDecoration: "none" }} cursor="pointer">
-						<Text fontSize="4xl">🏪</Text>
+					<Link
+						href="/"
+						_hover={{ textDecoration: "none" }}
+						cursor="pointer"
+						_focus={{
+							focusRingWidth: 0,
+						}}
+					>
+						<Text fontSize="6xl">🏪</Text>
 					</Link>
 					<Stack align="center" direction="row" w="fit" gap={6}>
 						<Box
