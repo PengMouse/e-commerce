@@ -18,15 +18,20 @@ import useGetProduct from "@/components/hooks/getProduct";
 import ReactStars from "react-stars";
 import { FiMinus, FiPlus } from "react-icons/fi";
 import { CgArrowLeft } from "react-icons/cg";
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavorite } from "@/store/favoriteSlice";
+import { addItem, increaseItem, decreaseItem, clearCart } from "@/store/cartSlice";
+import { Toaster, toaster } from "@/components/ui/toaster";
 const ViewPage = () => {
 	const router = useRouter();
-	const { id } = router.query;
+	const { id }: any = router.query;
 	const { getProduct, isData } = useGetProduct();
-
+	const dispatch = useDispatch();
 	const sizes = [
-		{ name: "S", value: "s" },
-		{ name: "M", value: "m" },
-		{ name: "L", value: "l" },
+		{ name: "S", value: "small" },
+		{ name: "M", value: "medium" },
+		{ name: "L", value: "large" },
 	];
 
 	const colors = [
@@ -34,23 +39,64 @@ const ViewPage = () => {
 		{ name: "#000000", value: "black" },
 		{ name: "#130066", value: "blue" },
 	];
+	const [activeSize, setActiveSize] = useState<any>("");
+	const [activeColor, setActiveColor] = useState<any>("");
+	const { favItems } = useSelector((state: any) => state.favorite);
+	const { items } = useSelector((state: any) => state.cart);
 
-	const [activeSize, setActiveSize] = useState<any>(0);
-	const [activeColor, setActiveColor] = useState<any>(0);
-	const [qty, setQty] = useState<any>(1);
+	console.log(items[0]);
 
-	const handleActiveSize = (id: any) => {
-		setActiveSize(id);
-	};
-	const handleActiveColor = (id: any) => {
-		setActiveColor(id);
+	// console.log(items);
+
+	const handleNotification = (status: any, title: any, description: any) => {
+		toaster.create({
+			title: `${title}`,
+			description: `${description}`,
+			type: `${status}`,
+			duration: 2000,
+		});
 	};
 
-	const handleIncrease = () => {
-		setQty(qty + 1);
+	const handleToggleFavorite = (id: any, name: any) => {
+		const isFavorite = favItems.some((item: any) => item.id === id);
+		if (!isFavorite) {
+			handleNotification("info", "❤️ Item added to favorite", name);
+		} else if (isFavorite) {
+			handleNotification("info", "😏 Item removed from favorite", name);
+		}
+		dispatch(toggleFavorite(isData));
 	};
-	const handleDecrease = () => {
-		setQty(qty - 1);
+
+	const handleAddToCart = (data: any, name: any) => {
+		dispatch(addItem({ ...data, color: activeColor, size: activeSize }));
+		handleNotification("info", "🤑 Item added to cart", `${name}`);
+	};
+
+	const handleIncrease = (id: any) => {
+		const item = items.some((item: any) => item.id === id);
+		if (item) {
+			dispatch(increaseItem(id));
+			handleNotification("info", "🤑 Item added to cart", `${isData?.title}`);
+		} else {
+			dispatch(addItem({ ...isData, color: activeColor, size: activeSize }));
+			handleNotification("info", "🤑 Item added to cart", `${isData?.title}`);
+		}
+	};
+
+	const handleDecrease = (id: any) => {
+		dispatch(decreaseItem(id));
+		handleNotification("info", "😏 Item removed from cart", `${isData?.title}`);
+	};
+	const handleClearCart = () => {
+		dispatch(clearCart());
+		handleNotification("info", "😏 Cart cleared", "");
+	};
+
+	const handleActiveSize = (value: any) => {
+		setActiveSize(value);
+	};
+	const handleActiveColor = (value: any) => {
+		setActiveColor(value);
 	};
 
 	useEffect(() => {
@@ -76,8 +122,9 @@ const ViewPage = () => {
 			flexDirection="column"
 			justifyContent="center"
 			alignItems="start"
-			py={{ base: 10, lg: 20 }}
+			py={{ base: 10 }}
 		>
+			<Toaster />
 			<Stack direction="row" align="center" mb={10} onClick={() => router.back()} cursor="pointer">
 				<Icon as={CgArrowLeft} color="black" w={7} h={7} mt="1px" />
 				<Box fontFamily="greg" color="black" fontSize="xl">
@@ -142,9 +189,21 @@ const ViewPage = () => {
 									({isData?.rating?.rate})
 								</Text>
 							</Stack>
-							<Text fontSize="3xl" fontFamily="greg" color="black" mt={6}>
-								${isData?.price}
-							</Text>
+							<Stack align="center" direction="row" gap={6} mt={6}>
+								<Text fontSize="3xl" fontFamily="greg" color="black">
+									${isData?.price}
+								</Text>
+
+								<Icon
+									as={favItems[0]?.favorite ? IoIosHeart : IoIosHeartEmpty}
+									w={7}
+									h={7}
+									mt={-1}
+									color={favItems[0]?.favorite ? "red" : "black"}
+									onClick={() => handleToggleFavorite(isData?.id, isData?.title)}
+									cursor="pointer"
+								/>
+							</Stack>
 						</Box>
 					)}
 
@@ -173,9 +232,9 @@ const ViewPage = () => {
 										<Box
 											rounded="lg"
 											key={index}
-											color={activeSize === index ? "white" : "black"}
-											bg={activeSize === index ? "black" : "white"}
-											onClick={() => handleActiveSize(index)}
+											color={activeSize === s?.value ? "white" : "black"}
+											bg={activeSize === s?.value ? "black" : "white"}
+											onClick={() => handleActiveSize(s?.value)}
 											borderWidth="2px"
 											borderColor="gray.100"
 											w={10}
@@ -187,7 +246,7 @@ const ViewPage = () => {
 											fontFamily="greg"
 											cursor="pointer"
 											transition="color, background-color ease-in 0.3s"
-											_hover={{ bg: activeSize === index ? "black" : "gray.100" }}
+											_hover={{ bg: activeSize === s?.value ? "black" : "gray.100" }}
 										>
 											{s?.name}
 										</Box>
@@ -222,9 +281,9 @@ const ViewPage = () => {
 											size="30px"
 											bg="white"
 											key={index}
-											onClick={() => handleActiveColor(index)}
-											borderWidth={activeColor === index ? "2px" : "0px"}
-											borderColor={activeColor === index ? "gray.400" : "transparent"}
+											onClick={() => handleActiveColor(c?.value)}
+											borderWidth={activeColor === c?.value ? "2px" : "0px"}
+											borderColor={activeColor === c?.value ? "gray.400" : "transparent"}
 											cursor="pointer"
 											display="flex"
 											flexDirection="column"
@@ -239,7 +298,7 @@ const ViewPage = () => {
 						)}
 					</Flex>
 					<Box h="2px" w="full" bg="gray.100" my={6} />
-					<Box>
+					<Box w="fit">
 						{!isData?.price ? (
 							<SkeletonText
 								noOfLines={1}
@@ -292,7 +351,7 @@ const ViewPage = () => {
 								>
 									{/* counter */}
 
-									<Box onClick={handleDecrease}>
+									<Box onClick={() => handleDecrease(isData?.id)}>
 										<Button
 											bg="gray.50"
 											py={2}
@@ -302,15 +361,15 @@ const ViewPage = () => {
 											transition=" ease-in-out  0.3s"
 											color="black"
 											cursor="pointer"
-											disabled={qty === 1}
+											disabled={items?.length === 0 || undefined}
 										>
 											<Icon as={FiMinus} w={6} h={6} fontFamily="greg" />
 										</Button>
 									</Box>
 									<Text color="black" fontFamily="greg" fontSize="lg">
-										{qty}
+										{items[0]?.quantity ? items[0]?.quantity : 0}
 									</Text>
-									<Box onClick={handleIncrease}>
+									<Box onClick={() => handleIncrease(isData?.id)}>
 										<Button
 											bg="gray.50"
 											py={2}
@@ -320,7 +379,7 @@ const ViewPage = () => {
 											roundedRight="lg"
 											transition=" ease-in-out  0.3s"
 											cursor="pointer"
-											disabled={qty === isData?.rating?.count}
+											disabled={items[0]?.quantity === isData?.rating?.count}
 										>
 											<Icon as={FiPlus} w={6} h={6} fontFamily="greg" />
 										</Button>
@@ -341,22 +400,58 @@ const ViewPage = () => {
 									variant="shine"
 								/>
 							) : (
+								<Stack direction="row" align="center" gap={4}>
+									<Box onClick={() => handleAddToCart(isData, isData?.title)}>
+										<Button
+											fontFamily="glight"
+											bg="black"
+											color="white"
+											variant="solid"
+											fontSize="lg"
+											px={10}
+											py={7}
+											_hover={{ bg: "#222222" }}
+											transition="background-color ease-in-out 0.3s"
+											rounded="xl"
+										>
+											Add to cart
+										</Button>
+									</Box>
+								</Stack>
+							)}
+						</Stack>
+						{!isData?.price ? (
+							<SkeletonText
+								noOfLines={1}
+								minW={{ base: "full", lg: "200px" }}
+								h={10}
+								rounded="md"
+								mt={6}
+								css={{
+									"--start-color": "colors.gray.50",
+									"--end-color": "colors.gray.200",
+								}}
+								variant="shine"
+							/>
+						) : (
+							<Box onClick={handleClearCart} cursor="pointer" w="full" mt={6}>
 								<Button
 									fontFamily="glight"
-									bg="black"
+									bg="red"
 									color="white"
 									variant="solid"
 									fontSize="lg"
 									px={10}
 									py={7}
-									_hover={{ bg: "#222222" }}
+									_hover={{ bg: "red.700" }}
 									transition="background-color ease-in-out 0.3s"
-									rounded="2xl"
+									rounded="xl"
+									w="full"
 								>
-									Add to cart
+									Clear cart
 								</Button>
-							)}
-						</Stack>
+							</Box>
+						)}
 					</Box>
 				</Box>
 			</Flex>

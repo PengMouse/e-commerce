@@ -1,23 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Circle, Icon, Image, Stack, Text, Flex, Link } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import ReactStars from "react-stars";
-const ProdCard = ({ img, name, rating, quantity, price, link }: any) => {
-	const [like, setLike] = useState<any>(false);
-	const handleLike = () => {
-		setLike(!like);
-	};
+const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc, toggle }: any) => {
 	return (
-		<Box
-			// _hover={{ rounded: "2xl", boxShadow: "0px 4px 6px rgb(226, 226, 226)" }}
-			// p={4}
-			// transition="ease-in-out 0.4s"
-			cursor="pointer"
-			w="full"
-		>
+		<Box cursor="pointer" w="full">
 			<Box
 				w="full"
 				borderWidth="2px"
@@ -27,10 +17,15 @@ const ProdCard = ({ img, name, rating, quantity, price, link }: any) => {
 				pos="relative"
 			>
 				<Stack pos="absolute" top={4} right={4} gap={3}>
-					<Circle bg="gray.100" size="20px" p="18px" onClick={handleLike}>
-						<Icon as={like ? IoIosHeart : IoIosHeartEmpty} w={6} h={6} color={like ? "red" : "#333333"} />
+					<Circle bg="gray.100" size="20px" p="18px" onClick={favFunc}>
+						<Icon
+							as={toggle ? IoIosHeart : IoIosHeartEmpty}
+							w={6}
+							h={6}
+							color={toggle ? "red" : "#333333"}
+						/>
 					</Circle>
-					<Circle bg="gray.100" size="20px" p="18px">
+					<Circle bg="gray.100" size="20px" p="18px" onClick={cartFunc}>
 						<Icon as={IoCartOutline} w={6} h={6} color="#333333" />
 					</Circle>
 				</Stack>
