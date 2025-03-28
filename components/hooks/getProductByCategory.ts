@@ -1,18 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import axios from "axios";
-const useGetProducts = () => {
+const useGetProductByCat = () => {
 	const [isData, setIsData] = useState<any>(null);
 	const [loading, setLoading] = useState<any>(false);
-	const getProds = async (limit: number = 20, skip: number = 0, sortby?: string, order?: string) => {
+	const getProdByCat = async (
+		product?: string,
+		limit: number = 20,
+		skip: number = 0,
+		sortby?: string,
+		order?: string
+	) => {
 		setLoading(true);
 		try {
 			const { data } = await axios.get(
 				`${
 					process.env.NEXT_PUBLIC_BASEURL
-				}/products?limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,discountPercentage&sortBy=${
-					sortby ? sortby : ""
-				}&order=${order ?? "asc"}`
+				}/products/category/${product}?limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,discountPercentage&sortBy=${sortby}&order=${
+					order ?? "asc"
+				}`
 			);
 			setIsData(data);
 			setLoading(false);
@@ -21,7 +27,7 @@ const useGetProducts = () => {
 			setLoading(false);
 		}
 	};
-	return { getProds, isData, loading };
+	return { getProdByCat, isData, loading };
 };
 
-export default useGetProducts;
+export default useGetProductByCat;

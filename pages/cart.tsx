@@ -134,7 +134,7 @@ const Cart = () => {
 										mx="auto"
 									>
 										<Image
-											src={i?.image}
+											src={i?.images[0]}
 											objectFit="contain"
 											alt=""
 											h={{ base: "100px", xl: "200px" }}
@@ -177,6 +177,19 @@ const Cart = () => {
 												</Text>
 												{i?.color}
 											</Text>
+											<Text
+												fontFamily="glight"
+												color="black"
+												fontSize="md"
+												lineClamp={1}
+												maxW="xs"
+												textTransform="capitalize"
+											>
+												<Text as="span" fontFamily="greg" opacity={0.6}>
+													Quantity:
+												</Text>{" "}
+												{i?.quantity}
+											</Text>
 										</Stack>
 
 										<Text
@@ -191,19 +204,6 @@ const Cart = () => {
 												Category:
 											</Text>{" "}
 											{i?.category}
-										</Text>
-										<Text
-											fontFamily="glight"
-											color="black"
-											fontSize="md"
-											lineClamp={1}
-											maxW="xs"
-											textTransform="capitalize"
-										>
-											<Text as="span" fontFamily="greg" opacity={0.6}>
-												Quantity:
-											</Text>{" "}
-											{i?.quantity}
 										</Text>
 									</Stack>
 									<Text fontFamily="gmid" color="black" fontSize="md">

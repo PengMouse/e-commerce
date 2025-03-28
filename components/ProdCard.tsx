@@ -5,7 +5,18 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import ReactStars from "react-stars";
-const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc, toggle }: any) => {
+const ProdCard = ({
+	img,
+	name,
+	rating,
+	quantity,
+	price,
+	link,
+	favFunc,
+	cartFunc,
+	toggle,
+	discount,
+}: any) => {
 	return (
 		<Box cursor="pointer" w="full">
 			<Box
@@ -40,7 +51,6 @@ const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc,
 					<Box
 						bg="white"
 						p={3}
-						h="250px"
 						w="full"
 						justifyContent="center"
 						alignItems="center"
@@ -69,6 +79,8 @@ const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc,
 						gap={2}
 						align={{ base: "start", sm: "center" }}
 						direction={{ base: "column", sm: "row" }}
+						mt={-2}
+						display={{ base: "none", sm: "flex" }}
 					>
 						<Stack direction={{ base: "column", sm: "row" }} align={{ base: "start", sm: "center" }}>
 							<ReactStars count={5} size={20} color2={"#F97316"} edit={false} value={rating} />
@@ -80,7 +92,17 @@ const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc,
 							</Text>
 						</Stack>
 					</Flex>
-					<Text fontSize="2xl" fontFamily="gmid" mt={{ base: 2 }} color="black" w="fit-content">
+					<Text fontSize="3xl" fontFamily="gmid" color="black" w="fit-content">
+						${discount}
+					</Text>
+					<Text
+						fontSize="md"
+						fontFamily="greg"
+						color="red"
+						w="fit-content"
+						textDecoration="line-through"
+						mt={-2}
+					>
 						${price}
 					</Text>
 				</Box>

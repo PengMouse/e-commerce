@@ -137,8 +137,8 @@ const ViewPage = () => {
 					Back
 				</Box>
 			</Stack>
-			<Flex gap={8} w="full" direction={{ base: "column", md: "row" }}>
-				{!isData?.image ? (
+			<Flex gap={8} w="full" direction={{ base: "column", lg: "row" }}>
+				{!isData?.images ? (
 					<Skeleton
 						minW="200px"
 						w={{ base: "full", sm: "400px" }}
@@ -163,7 +163,7 @@ const ViewPage = () => {
 						alignItems="center"
 						justifyContent="center"
 					>
-						<Image src={isData?.image} alt="" w="full" h="300px" objectFit="contain" />
+						<Image src={isData?.images[0]} alt="" w="full" h="300px" objectFit="contain" />
 					</Box>
 				)}
 
@@ -183,19 +183,46 @@ const ViewPage = () => {
 							<Text fontFamily="greg" fontSize="2xl" maxW="xl" lineHeight="30px" color="black">
 								{isData?.title}
 							</Text>
-							<Stack direction="row" align="center">
-								<ReactStars
-									count={5}
-									size={20}
-									color2={"#F97316"}
-									edit={false}
-									value={isData?.rating?.rate}
-								/>
-								<Text fontFamily="greg" mt={1} opacity={0.5} color="black">
-									({isData?.rating?.rate})
-								</Text>
-							</Stack>
-							<Stack align="center" direction="row" gap={6} mt={6}>
+							<Text fontFamily="glight" fontSize="md" color="black" mb={2}>
+								{isData?.description}
+							</Text>
+							<Flex flexWrap="wrap" align="center" direction="row" gapX={6} gapY={2} mt={4}>
+								{/* tags */}
+								<Stack direction="row" align="center">
+									<Text fontFamily="gmid" fontSize="md" color="black">
+										Tags:
+									</Text>
+									<Stack direction="row" align="center">
+										{isData?.tags?.map((t: any, index: number) => (
+											<Box key={index} bg="gray.100" rounded="full" px={3} py={1}>
+												<Text fontFamily="greg" fontSize="md" textTransform="capitalize" opacity="0.7">
+													{t}
+												</Text>
+											</Box>
+										))}
+									</Stack>
+								</Stack>
+								{/* brand */}
+								<Stack direction="row" align="center">
+									<Text fontFamily="gmid" fontSize="md" color="black">
+										Brand:
+									</Text>
+									<Text fontFamily="greg" fontSize="md" color="black" opacity={0.7}>
+										{isData?.brand}
+									</Text>
+								</Stack>
+								{/* SKU */}
+								<Stack direction="row" align="center">
+									<Text fontFamily="gmid" fontSize="md" color="black">
+										SKU:
+									</Text>
+									<Text fontFamily="greg" fontSize="md" color="black" opacity={0.7}>
+										{isData?.sku}
+									</Text>
+								</Stack>
+							</Flex>
+
+							<Flex flexWrap="wrap" align="center" direction="row" gapX={6} mt={6} gapY={2}>
 								<Text fontSize="3xl" fontFamily="greg" color="black">
 									${isData?.price}
 								</Text>
@@ -209,7 +236,19 @@ const ViewPage = () => {
 									onClick={() => handleToggleFavorite(isData?.id, isData?.title)}
 									cursor="pointer"
 								/>
-							</Stack>
+								<Stack direction="row" align="center">
+									<ReactStars count={5} size={20} color2={"#F97316"} edit={false} value={isData?.rating} />
+									<Text fontFamily="greg" mt={1} opacity={0.5} color="black">
+										({isData?.stock})
+									</Text>
+								</Stack>
+								<Text fontFamily="greg" fontSize="md" color="black">
+									Availability: {isData?.availabilityStatus}
+								</Text>
+								<Text fontFamily="greg" fontSize="md" color="black">
+									Weight: {isData?.weight}
+								</Text>
+							</Flex>
 						</Box>
 					)}
 
@@ -393,7 +432,7 @@ const ViewPage = () => {
 											roundedRight="lg"
 											transition=" ease-in-out  0.3s"
 											cursor="pointer"
-											disabled={items[0]?.quantity === isData?.rating?.count}
+											disabled={items[0]?.quantity === isData?.stock}
 										>
 											<Icon as={FiPlus} w={6} h={6} fontFamily="greg" />
 										</Button>
@@ -469,6 +508,31 @@ const ViewPage = () => {
 					</Box>
 				</Box>
 			</Flex>
+			<Box mt={20} w="full">
+				<Text fontFamily="greg" fontSize="2xl" maxW="xl" lineHeight="30px" color="black">
+					Reviews
+				</Text>
+				<Stack mt={8}>
+					{isData?.reviews?.map((r: any, index: number) => (
+						<Box key={index}>
+							<Stack direction="row" align="center">
+								<Text fontFamily="gmid" fontSize="lg" mt={2}>
+									{r?.reviewerName}
+								</Text>
+								<ReactStars count={5} size={20} color2={"#F97316"} edit={false} value={r?.rating} />
+							</Stack>
+							<Text fontFamily="glight" fontSize="sm" opacity={0.5}>
+								{r?.reviewerEmail}
+							</Text>
+							<Text fontFamily="glight" fontSize="md" opacity={1} mt={4}>
+								{r?.comment}
+							</Text>
+
+							<Box h="1px" bg="gray.100" w="full" />
+						</Box>
+					))}
+				</Stack>
+			</Box>
 		</Box>
 	);
 };
