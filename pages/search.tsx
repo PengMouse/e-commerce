@@ -143,7 +143,7 @@ const Search = () => {
 								}}
 							>
 								<Stack direction="row" align="center">
-									<Icon as={TiSortAlphabeticallyOutline} w={6} h={6} color="black" mt={-1} />
+									<Icon as={TiSortAlphabeticallyOutline} w={6} h={6} color="black" />
 									<Text fontSize="lg" fontFamily="greg" color="black">
 										Sort by
 									</Text>
@@ -186,7 +186,7 @@ const Search = () => {
 								}}
 							>
 								<Stack direction="row" align="center">
-									<Icon as={FaSort} w={5} h={5} color="black" mt={-1} />
+									<Icon as={FaSort} w={5} h={5} color="black" />
 
 									<Text fontSize="lg" fontFamily="greg" color="black">
 										Order by

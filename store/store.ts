@@ -3,6 +3,8 @@ import storage from "redux-persist/lib/storage"; // Defaults to localStorage for
 import { persistReducer, persistStore } from "redux-persist";
 import cartReducer from "../store/cartSlice";
 import favoriteReducer from "../store/favoriteSlice";
+import userReducer from "../store/userSlice";
+import authReducer from "../store/authSlice";
 import { combineReducers } from "redux";
 
 // Configure persistence for reducers
@@ -15,6 +17,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	cart: cartReducer,
 	favorite: favoriteReducer,
+	user: userReducer,
+	authToken: authReducer,
 });
 
 // Wrap the root reducer with persistReducer

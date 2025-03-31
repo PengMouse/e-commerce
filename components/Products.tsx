@@ -137,10 +137,6 @@ const Products = () => {
 		getCat();
 	}, []);
 
-	useEffect(() => {
-		console.log(catData);
-	}, [catData]);
-
 	return (
 		<Box maxW="1360px" w="full" mx="auto" px={{ base: 3, sm: 6, lg: 10 }} py={{ base: 10, lg: 20 }}>
 			<Toaster />
@@ -231,7 +227,7 @@ const Products = () => {
 								padding={0}
 							>
 								<Stack direction="row" align="center">
-									<Icon as={TiSortAlphabeticallyOutline} w={6} h={6} color="black" mt={-1} />
+									<Icon as={TiSortAlphabeticallyOutline} w={6} h={6} color="black" mt={{ sm: -1 }} />
 									<Text fontSize="lg" fontFamily="greg" color="black">
 										Sort by
 									</Text>
@@ -275,7 +271,7 @@ const Products = () => {
 								padding={0}
 							>
 								<Stack direction="row" align="center">
-									<Icon as={FaSort} w={5} h={5} color="black" mt={-1} />
+									<Icon as={FaSort} w={5} h={5} color="black" mt={{ sm: -1 }} />
 
 									<Text fontSize="lg" fontFamily="greg" color="black">
 										Order by
