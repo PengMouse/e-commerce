@@ -91,7 +91,7 @@ const Favorite = () => {
 										mx="auto"
 									>
 										<Image
-											src={i?.image}
+											src={i?.images[0]}
 											objectFit="contain"
 											alt=""
 											h={{ base: "100px", xl: "200px" }}
