@@ -105,6 +105,8 @@ const Search = () => {
 		setOrderValue(value);
 	};
 
+	const total = searchData?.total;
+
 	useEffect(() => {
 		const getProdByQuery = async () => {
 			await searchProduct(q, 20, skip, sortValue, orderValue);
@@ -289,7 +291,7 @@ const Search = () => {
 				>
 					<ButtonGroup variant="solid" size="lg">
 						<Pagination.PrevTrigger asChild>
-							<IconButton onClick={handleReducePagination} disabled={loading}>
+							<IconButton onClick={handleReducePagination} disabled={loading || skip === 0}>
 								<LuChevronLeft />
 							</IconButton>
 						</Pagination.PrevTrigger>
@@ -308,7 +310,10 @@ const Search = () => {
 						/>
 
 						<Pagination.NextTrigger asChild>
-							<IconButton onClick={handleIncreasePagination} disabled={loading}>
+							<IconButton
+								onClick={handleIncreasePagination}
+								disabled={loading || total === searchData?.total}
+							>
 								<LuChevronRight />
 							</IconButton>
 						</Pagination.NextTrigger>
