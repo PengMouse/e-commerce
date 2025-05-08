@@ -72,7 +72,14 @@ const ProdCard = ({
 				_hover={{ textDecoration: "none" }}
 			>
 				<Box w="fit-content">
-					<Text fontFamily="greg" fontSize="lg" lineClamp={1} mt={3} color="black" w="fit-content">
+					<Text
+						fontFamily="greg"
+						fontSize={{ base: "sm", sm: "md", lg: "lg" }}
+						lineClamp={1}
+						mt={3}
+						color="black"
+						w="fit-content"
+					>
 						{name}
 					</Text>
 					<Flex
@@ -92,8 +99,16 @@ const ProdCard = ({
 							</Text>
 						</Stack>
 					</Flex>
-					<Text fontSize="3xl" fontFamily="gmid" color="black" w="fit-content">
-						${discount}
+					<Text
+						fontSize={{ base: "2xl", sm: "3xl" }}
+						fontFamily={{ base: "greg", lg: "gmid" }}
+						color="black"
+						w="fit-content"
+					>
+						<Text textDecoration="line-through" as="span">
+							N
+						</Text>
+						{discount}
 					</Text>
 					<Text
 						fontSize="md"
@@ -103,7 +118,10 @@ const ProdCard = ({
 						textDecoration="line-through"
 						mt={-2}
 					>
-						${price}
+						<Text textDecoration="line-through" as="span">
+							N
+						</Text>
+						{price}
 					</Text>
 				</Box>
 			</Link>

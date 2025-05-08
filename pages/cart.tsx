@@ -1,15 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Stack, Icon, Text, SimpleGrid, Image, Flex, Button } from "@chakra-ui/react";
+
+import { Box, Stack, Icon, Text, SimpleGrid, Image, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/router";
 import { CgArrowLeft } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { removeItem } from "@/store/cartSlice";
+import PaymentBtn from "@/components/PaymentBtn";
+
 const Cart = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
+
 	const { items } = useSelector((state: any) => state.cart);
+
 	const handleNotification = (status: any, title: any, description: any) => {
 		toaster.create({
 			title: `${title}`,
@@ -22,14 +27,6 @@ const Cart = () => {
 	const handleRemoveItem = (id: any) => {
 		dispatch(removeItem(id));
 		handleNotification("info", "😏 Item removed from cart", "");
-	};
-
-	const handleCheckOut = () => {
-		if (items?.length >= 1) {
-			handleNotification("info", "Hmm, enu po 😂", "No go warm eba chop");
-		} else {
-			handleNotification("info", "Gadus😂", "Wetin you wan checkout?");
-		}
 	};
 
 	const [getSum, setSum] = useState<any>(0);
@@ -78,28 +75,19 @@ const Cart = () => {
 					gap={4}
 				>
 					<Text fontFamily="greg" color="black" fontSize="2xl">
-						Total: ${getSum}
+						Total:{" "}
+						<Text textDecoration="line-through" as="span">
+							N
+						</Text>
+						{getSum}
 					</Text>
-					<Box onClick={handleCheckOut}>
-						<Button
-							fontFamily="glight"
-							bg="black"
-							color="white"
-							variant="solid"
-							fontSize="lg"
-							px={8}
-							py={7}
-							_hover={{ bg: "#333333" }}
-							transition="background-color ease-in-out 0.3s"
-							rounded="xl"
-						>
-							🤑 Checkout
-						</Button>
+					<Box>
+						<PaymentBtn amount={getSum} />
 					</Box>
 				</Stack>
 			</Flex>
 			<Box h="1px" bg="gray.300" minW="200px" w="full" my={6} />
-			<SimpleGrid columns={{ base: 1, sm: 2, xl: 3 }} w="full" gap={6}>
+			<SimpleGrid columns={{ base: 1, sm: 2, xl: 3 }} w="full" gap={6} maxH="600px" overflow="auto">
 				{items?.map((i: any, index: number) => (
 					<Box key={index} w="full">
 						<Box
@@ -211,7 +199,10 @@ const Cart = () => {
 											Price:
 											<br />
 										</Text>{" "}
-										${i?.price}
+										<Text textDecoration="line-through" as="span">
+											N
+										</Text>
+										{i?.price}
 									</Text>
 									<Stack w="fit-content" mt={6} direction="column" align="start" gap={1}>
 										<Text
@@ -226,7 +217,10 @@ const Cart = () => {
 											<Text as="span" fontFamily="greg" opacity={0.6}>
 												Total:
 											</Text>{" "}
-											${i?.quantity * i?.price}
+											<Text textDecoration="line-through" as="span">
+												N
+											</Text>
+											{i?.quantity * i?.price}
 										</Text>
 									</Stack>
 								</Stack>

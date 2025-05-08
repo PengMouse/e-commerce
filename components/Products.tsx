@@ -67,7 +67,7 @@ const Products = () => {
 			title: `${title}`,
 			description: `${description}`,
 			type: `${status}`,
-			duration: 3000,
+			duration: 1000,
 		});
 	};
 
