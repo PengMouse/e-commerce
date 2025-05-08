@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 const PaymentBtn = ({ amount }: any) => {
 	const [Paystack, setPaystack] = useState<any>(null);
 	const { items } = useSelector((state: any) => state?.cart);
-	console.log(items);
 	const handleNotification = (status: any, title: any, description: any) => {
 		toaster.create({
 			title: `${title}`,

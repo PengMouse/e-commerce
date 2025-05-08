@@ -37,10 +37,6 @@ const Cart = () => {
 		setSum(parseFloat(sum.toFixed(2)));
 	}, [items]);
 
-	useEffect(() => {
-		console.log(getSum);
-	}, [getSum]);
-
 	return (
 		<Box
 			maxW="1360px"
