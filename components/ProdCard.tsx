@@ -108,7 +108,7 @@ const ProdCard = ({
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{discount}
+						{(discount * 1600).toLocaleString("en-US")}
 					</Text>
 					<Text
 						fontSize="md"
@@ -121,7 +121,7 @@ const ProdCard = ({
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{price}
+						{(price * 1600).toLocaleString("en-US")}
 					</Text>
 				</Box>
 			</Link>
