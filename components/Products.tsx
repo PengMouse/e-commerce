@@ -114,7 +114,7 @@ const Products = () => {
 		setOrderValue(value);
 	};
 
-	const total = isData?.total;
+	// const total = isData?.total;
 
 	useEffect(() => {
 		const getProd = async () => {
@@ -426,7 +426,7 @@ const Products = () => {
 					w="fit"
 				>
 					<ButtonGroup variant="solid" size="lg">
-						<Flex flexWrap="wrap">
+						<Flex flexWrap="wrap" gap={2}>
 							<Pagination.PrevTrigger asChild>
 								<IconButton onClick={handleReducePagination} disabled={loading || skip === 0}>
 									<LuChevronLeft />
@@ -447,10 +447,7 @@ const Products = () => {
 							/>
 
 							<Pagination.NextTrigger asChild>
-								<IconButton
-									onClick={handleIncreasePagination}
-									disabled={loading || total === isData?.total}
-								>
+								<IconButton onClick={handleIncreasePagination} disabled={loading}>
 									<LuChevronRight />
 								</IconButton>
 							</Pagination.NextTrigger>

@@ -224,7 +224,10 @@ const ViewPage = () => {
 
 							<Flex flexWrap="wrap" align="center" direction="row" gapX={6} mt={6} gapY={2}>
 								<Text fontSize="3xl" fontFamily="greg" color="black">
-									${isData?.price}
+									<Text as="span" textDecoration="line-through">
+										N
+									</Text>
+									{(isData?.discountPercentage * 1600)?.toLocaleString("en-US")}
 								</Text>
 
 								<Icon
