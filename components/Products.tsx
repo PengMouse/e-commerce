@@ -140,7 +140,7 @@ const Products = () => {
 	}, []);
 
 	return (
-		<Box maxW="1360px" w="full" mx="auto" px={{ base: 3, sm: 6, lg: 10 }} py={{ base: 10, lg: 20 }}>
+		<Box maxW="1360px" w="full" mx="auto" px={{ base: 3, sm: 6, lg: 10 }} pt={{ base: 10, lg: 20 }}>
 			<Toaster />
 			<Flex
 				align={{ base: "start", sm: "center" }}
@@ -421,7 +421,7 @@ const Products = () => {
 					count={sortCatValue !== "" || undefined ? prodCatData?.total : isData?.total}
 					pageSize={20}
 					defaultPage={page}
-					mt={20}
+					mt={16}
 					ml="auto"
 					w="fit"
 				>
