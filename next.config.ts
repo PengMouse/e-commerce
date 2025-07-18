@@ -17,7 +17,13 @@ const nextConfig: NextConfig = withPWA({
 		dest: "public",
 		register: true,
 		skipWaiting: true,
-		disable: isDev, // disables service worker in dev
+		disable: isDev,
+		workboxOptions: {
+			mode: "development", // disables logs
+			// OR you can also use this:
+			debug: false,
+			disable: true,
+		}, // disables service worker in dev
 	},
 });
 

@@ -119,7 +119,7 @@ const Search = () => {
 	}, [searchData]);
 
 	return (
-		<Box maxW="1360px" w="full" mx="auto" px={{ base: 3, sm: 6, lg: 10 }} py={{ base: 10 }}>
+		<Box maxW="1360px" w="full" mx="auto" px={{ base: 3, sm: 6, lg: 10 }} pt={{ base: 10 }}>
 			<Toaster />
 			<Flex
 				align={{ base: "start", sm: "center" }}
@@ -285,38 +285,40 @@ const Search = () => {
 					count={searchData?.total}
 					pageSize={20}
 					defaultPage={page}
-					mt={20}
+					mt={16}
 					ml="auto"
 					w="fit"
 				>
 					<ButtonGroup variant="solid" size="lg">
-						<Pagination.PrevTrigger asChild>
-							<IconButton onClick={handleReducePagination} disabled={loading || skip === 0}>
-								<LuChevronLeft />
-							</IconButton>
-						</Pagination.PrevTrigger>
-
-						<Pagination.Items
-							render={(page) => (
-								<IconButton
-									variant={{ base: "solid", _selected: "solid" }}
-									_selected={{ borderWidth: "1px", borderColor: "black" }}
-									disabled={loading}
-									onClick={() => handleCurrentPage(page.value - 1)}
-								>
-									{page.value}
+						<Flex flexWrap="wrap" gap={2}>
+							<Pagination.PrevTrigger asChild>
+								<IconButton onClick={handleReducePagination} disabled={loading || skip === 0}>
+									<LuChevronLeft />
 								</IconButton>
-							)}
-						/>
+							</Pagination.PrevTrigger>
 
-						<Pagination.NextTrigger asChild>
-							<IconButton
-								onClick={handleIncreasePagination}
-								disabled={loading || total === searchData?.total}
-							>
-								<LuChevronRight />
-							</IconButton>
-						</Pagination.NextTrigger>
+							<Pagination.Items
+								render={(page) => (
+									<IconButton
+										variant={{ base: "solid", _selected: "solid" }}
+										_selected={{ borderWidth: "1px", borderColor: "black" }}
+										disabled={loading}
+										onClick={() => handleCurrentPage(page.value - 1)}
+									>
+										{page.value}
+									</IconButton>
+								)}
+							/>
+
+							<Pagination.NextTrigger asChild>
+								<IconButton
+									onClick={handleIncreasePagination}
+									disabled={loading || total === searchData?.total}
+								>
+									<LuChevronRight />
+								</IconButton>
+							</Pagination.NextTrigger>
+						</Flex>
 					</ButtonGroup>
 				</Pagination.Root>
 			)}
