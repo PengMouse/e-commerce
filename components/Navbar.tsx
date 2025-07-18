@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa6";
 import { useRouter } from "next/router";
 import {
 	useSelector,
@@ -23,8 +24,11 @@ import {
 // import { logOut } from "@/store/authSlice";
 // import { logOut as userLogout } from "@/store/userSlice";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { IoMdCart } from "react-icons/io";
 import { AiOutlineHome } from "react-icons/ai";
+import { AiFillHome } from "react-icons/ai";
 import { IoSearch } from "react-icons/io5";
+import { RiSearchFill } from "react-icons/ri";
 import Link from "next/link";
 const Navbar = () => {
 	// 	const dispatch = useDispatch();
@@ -209,7 +213,7 @@ const Navbar = () => {
 				align="center"
 				bg="gray.100"
 				px={{ base: 8, sm: 10 }}
-				h={16}
+				h={20}
 				boxShadow="md"
 				pos="fixed"
 				bottom={0}
@@ -221,17 +225,25 @@ const Navbar = () => {
 				display={{ base: "flex", sm: "none" }}
 			>
 				<Link href="/">
-					<Icon as={AiOutlineHome} color="black" boxSize={{ base: 6, sm: 7 }} />
+					<Icon
+						as={router?.pathname === "/" ? AiFillHome : AiOutlineHome}
+						color="black"
+						boxSize={{ base: 6, sm: 7 }}
+					/>
 				</Link>
 
 				<Link href="/search">
-					<Icon as={IoSearch} color="black" boxSize={{ base: 6, sm: 7 }} />
+					<Icon
+						as={router?.pathname === "/search" ? RiSearchFill : IoSearch}
+						color="black"
+						boxSize={{ base: 6, sm: 7 }}
+					/>
 				</Link>
 
 				<Link href="/cart">
 					<Box pos="relative">
 						<Icon
-							as={MdOutlineShoppingCart}
+							as={router?.pathname === "/cart" ? IoMdCart : MdOutlineShoppingCart}
 							w={{ base: 6, sm: 8 }}
 							h={{ base: 6, sm: 8 }}
 							color="black"
@@ -259,7 +271,12 @@ const Navbar = () => {
 
 				<Link href="/favorite">
 					<Box pos="relative">
-						<Icon as={FaRegHeart} w={{ base: 6, sm: 8 }} h={{ base: 6, sm: 8 }} color="black" />
+						<Icon
+							as={router?.pathname === "/favorite" ? FaHeart : FaRegHeart}
+							w={{ base: 6, sm: 8 }}
+							h={{ base: 6, sm: 8 }}
+							color="black"
+						/>
 						<Circle
 							size="20px"
 							bg="red.200"
