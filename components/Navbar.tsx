@@ -35,7 +35,7 @@ const Navbar = () => {
 	// const { userData } = useSelector((state: any) => state.user);
 	const router = useRouter();
 	const { items } = useSelector((state: any) => state.cart);
-	const { favItems } = useSelector((state: any) => state.favorite);
+	// const { favItems } = useSelector((state: any) => state.favorite);
 	const [query, setQuery] = useState<any>("");
 
 	const handleQueryChange = (e: any) => {
@@ -114,7 +114,7 @@ const Navbar = () => {
 								<Link href="/favorite">
 									<Box pos="relative">
 										<Icon as={FaRegHeart} w={8} h={8} color="black" />
-										<Circle
+										{/* <Circle
 											size="20px"
 											bg="red.200"
 											pos="absolute"
@@ -131,7 +131,7 @@ const Navbar = () => {
 											<Text mt="-1px" color="black">
 												{favItems?.length ? favItems?.length : 0}
 											</Text>
-										</Circle>
+										</Circle> */}
 									</Box>
 								</Link>
 							</Stack>
@@ -277,7 +277,7 @@ const Navbar = () => {
 							h={{ base: 6, sm: 8 }}
 							color="black"
 						/>
-						<Circle
+						{/* <Circle
 							size="20px"
 							bg="red.200"
 							pos="absolute"
@@ -294,7 +294,7 @@ const Navbar = () => {
 							<Text mt="-1px" color="black">
 								{favItems?.length ? favItems?.length : 0}
 							</Text>
-						</Circle>
+						</Circle> */}
 					</Box>
 				</Link>
 			</Flex>
