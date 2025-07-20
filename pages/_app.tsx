@@ -5,29 +5,40 @@ import Layout from "@/components/Layout";
 import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
+import Head from "next/head";
 import { useRouter } from "next/router";
 export default function App({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 	if (router.pathname.includes("/login")) {
 		return (
-			<ReduxProvider store={store}>
-				<PersistGate loading={null} persistor={persistor}>
-					<Provider>
-						<Component {...pageProps} />
-					</Provider>
-				</PersistGate>
-			</ReduxProvider>
+			<>
+				<Head>
+					<title>e-Market - Shop for free</title>
+				</Head>
+				<ReduxProvider store={store}>
+					<PersistGate loading={null} persistor={persistor}>
+						<Provider>
+							<Component {...pageProps} />
+						</Provider>
+					</PersistGate>
+				</ReduxProvider>
+			</>
 		);
 	}
 	return (
-		<ReduxProvider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<Provider>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</Provider>
-			</PersistGate>
-		</ReduxProvider>
+		<>
+			<Head>
+				<title>e-Market - Shop for free</title>
+			</Head>
+			<ReduxProvider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<Provider>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</Provider>
+				</PersistGate>
+			</ReduxProvider>
+		</>
 	);
 }
