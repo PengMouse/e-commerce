@@ -23,9 +23,12 @@ const rootReducer = combineReducers({
 
 // Wrap the root reducer with persistReducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = configureStore({
 	reducer: persistedReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+		}),
 });
 
 // Persistor for rehydration
