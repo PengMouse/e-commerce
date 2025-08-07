@@ -15,7 +15,6 @@ export default function Document() {
 				<meta property="og:url" content="https://e-commerce-tan-pi.vercel.app/" />
 				<meta property="og:author" name="Afolabi Babatunde Joseph" />
 
-				<link rel="manifest" href="/manifest.json" />
 				<link rel="apple-touch-icon" href="/icon512_rounded.png" />
 				<meta name="theme-color" content="#ffffff" />
 			</Head>

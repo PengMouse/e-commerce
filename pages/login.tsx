@@ -1,31 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Input, Stack, Text, Button } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import useLogUserIn from "@/components/hooks/logUserIn";
+import { Box, Input, Stack, Text, Button, Icon } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { Toaster, toaster } from "@/components/ui/toaster";
+import { FaGoogle } from "react-icons/fa";
+// import { FaApple } from "react-icons/fa";
+import { auth, googleProvider } from "../lib/firebase";
+import { signInWithPopup } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { userDetails } from "@/store/userSlice";
+import { storeUserAuthToken, storeUserRefreshToken } from "@/store/authSlice";
+import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
 
 const Login = () => {
-	const { getLogIn, isData, states } = useLogUserIn();
-	const [values, setValues] = useState<any>({
-		username: "emilys",
-		pwd: "emilyspass",
-		expiresInMins: 1500,
-	});
+	const [loading, setLoading] = useState(false);
+	const dispatch = useDispatch();
+	const router = useRouter();
 
-	const handleValueChange = (e: any) => {
-		const { name, value } = e?.target;
-		setValues((prev: any) => ({
-			...prev,
-			[name]: value,
-		}));
-	};
-
-	const handleSubmit = (e: any) => {
-		e.preventDefault();
-		getLogIn(values?.username, values?.pwd);
-	};
-
+	// toast notification
 	const handleNotification = (status: any, title: any, description: any) => {
 		toaster.create({
 			title: `${title}`,
@@ -35,17 +28,32 @@ const Login = () => {
 		});
 	};
 
-	useEffect(() => {
-		if (states?.success) {
-			setTimeout(() => {
-				handleNotification("success", states?.successMsg, "");
-			}, 0);
-		} else if (states?.error) {
-			setTimeout(() => {
-				handleNotification("error", states?.errorMsg, "");
-			}, 0);
+	const handleGoogleLogin = async () => {
+		setLoading(true);
+		try {
+			const result: any = await signInWithPopup(auth, googleProvider);
+			console.log(result);
+			dispatch(userDetails(result?.user?.providerData?.[0]));
+			dispatch(storeUserAuthToken(result?._tokenResponse?.idToken));
+			setCookie("authToken", result?._tokenResponse?.idToken, {
+				maxAge: result?._tokenResponse?.oauthExpireIn,
+				path: "/",
+			});
+			dispatch(storeUserRefreshToken(result?._tokenResponse?.refreshToken));
+			if (result.user?.emailVerified === true) {
+				handleNotification("success", "Login successful", "Welcome aboard");
+			}
+			setLoading(false);
+			router.push("/");
+		} catch (error: any) {
+			console.error("Sign-in failed", error?.code);
+			if (error?.code === "auth/popup-closed-by-user") {
+				handleNotification("error", "Login failed!", "An error occured");
+				setLoading(false);
+			}
+			setLoading(false);
 		}
-	}, [states]);
+	};
 
 	return (
 		<Box
@@ -61,79 +69,36 @@ const Login = () => {
 				<Text fontSize="3xl" fontFamily="greg" color="black" textAlign="center" mx="auto" w="fit">
 					Login
 				</Text>
-				<form onSubmit={handleSubmit} style={{ width: "full" }}>
-					<Stack
-						gap={3}
-						w="full"
-						maxW="sm"
-						bg="gray.50"
-						rounded="xl"
-						px={6}
-						py={6}
-						minH="200px"
-						display="flex"
-						flexDirection="column"
-						justifyContent="center"
-						alignItems="center"
-					>
-						<Input
-							name="username"
-							id="username"
-							value={values.username}
-							type="text"
-							onChange={handleValueChange}
-							placeholder="Username"
-							w="full"
-							fontFamily="greg"
-							color="black"
-							fontSize="md"
-							borderColor="gray.400"
-							disabled={states?.loading}
-							_autofill={{
-								boxShadow: `0 0 0px 1000px #B2BAC8 inset`,
-								WebkitTextFillColor: "black",
-							}}
-						/>
-
-						<Input
-							name="pwd"
-							id="pwd"
-							value={values.pwd}
-							type="password"
-							onChange={handleValueChange}
-							placeholder="Password"
-							w="full"
-							fontFamily="greg"
-							color="black"
-							fontSize="md"
-							borderColor="gray.400"
-							disabled={states?.loading}
-							_autofill={{
-								boxShadow: `0 0 0px 1000px #B2BAC8 inset`,
-								WebkitTextFillColor: "black",
-							}}
-						/>
+				<Box px={{ base: 3, sm: 6, lg: 10 }}>
+					<Stack gap={3} maxW="xl" mx="auto" w="full">
+						{/* sign in with google */}
 						<Button
-							mt={4}
-							type="submit"
-							fontFamily="glight"
-							bg="black"
-							color="white"
-							variant="solid"
-							fontSize="lg"
-							px={10}
-							py={6}
-							_hover={{ bg: "#222222" }}
-							transition="background-color ease-in-out 0.3s"
-							rounded="xl"
+							disabled={loading}
 							w="full"
-							loading={states?.loading}
-							loadingText="Please wait..."
+							rounded="xl"
+							borderWidth="2px"
+							borderColor="#111111"
+							py={7}
+							_hover={{ bg: "#111111", color: "white" }}
+							color="#111111"
 						>
-							Submit
+							<Stack
+								direction="row"
+								align="center"
+								w="full"
+								gap={4}
+								transition="all 0.3s ease-in-out"
+								justify="center"
+								onClick={handleGoogleLogin}
+							>
+								<Icon as={FaGoogle} boxSize={6} />
+								<Text fontWeight="bold" fontSize="xl">
+									SIGN IN WITH GOOGLE
+								</Text>
+							</Stack>
 						</Button>
 					</Stack>
-				</form>
+				</Box>
 			</Stack>
 		</Box>
 	);
