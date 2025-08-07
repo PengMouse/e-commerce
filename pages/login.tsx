@@ -43,14 +43,13 @@ const Login = () => {
 			if (result.user?.emailVerified === true) {
 				handleNotification("success", "Login successful", "Welcome aboard");
 			}
-			setLoading(false);
 			router.push("/");
 		} catch (error: any) {
 			console.error("Sign-in failed", error?.code);
 			if (error?.code === "auth/popup-closed-by-user") {
 				handleNotification("error", "Login failed!", "An error occured");
-				setLoading(false);
 			}
+		} finally {
 			setLoading(false);
 		}
 	};
