@@ -54,7 +54,7 @@ const Navbar = () => {
 		router.push("/login");
 	};
 
-	console.log(userData);
+	// console.log(userData);
 
 	return (
 		<Box>

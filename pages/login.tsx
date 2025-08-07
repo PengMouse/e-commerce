@@ -32,7 +32,7 @@ const Login = () => {
 		setLoading(true);
 		try {
 			const result: any = await signInWithPopup(auth, googleProvider);
-			console.log(result);
+			// console.log(result);
 			dispatch(userDetails(result?.user?.providerData?.[0]));
 			dispatch(storeUserAuthToken(result?._tokenResponse?.idToken));
 			setCookie("authToken", result?._tokenResponse?.idToken, {
