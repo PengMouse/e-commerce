@@ -5,8 +5,7 @@ import cartReducer from "../store/cartSlice";
 import favoriteReducer from "../store/favoriteSlice";
 import userReducer from "../store/userSlice";
 import authReducer from "../store/authSlice";
-import { combineReducers } from "redux";
-
+import { combineReducers } from "@reduxjs/toolkit";
 // Configure persistence for reducers
 const persistConfig = {
 	key: "root", // Key to store data under in localStorage
