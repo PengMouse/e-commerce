@@ -145,6 +145,9 @@ const PaymentBtn = ({
 						setLoading(false);
 					},
 				});
+			} else {
+				setLoading(false);
+				return;
 			}
 		} catch (err: any) {
 			console.log(err);
