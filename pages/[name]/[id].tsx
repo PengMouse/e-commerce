@@ -65,7 +65,15 @@ const ViewPage = () => {
 	};
 
 	const handleAddToCart = (data: any, name: any) => {
-		dispatch(addItem({ ...data, color: activeColor, size: activeSize, quantity: qty }));
+		dispatch(
+			addItem({
+				...data,
+				color: activeColor,
+				size: activeSize,
+				quantity: qty,
+				price: data?.price * 0.9 * 3000,
+			})
+		);
 		handleNotification("info", "🤑 Item added to cart", `${name}`);
 	};
 
@@ -227,7 +235,7 @@ const ViewPage = () => {
 									<Text as="span" textDecoration="line-through">
 										N
 									</Text>
-									{(isData?.discountPercentage * 1600)?.toLocaleString("en-US")}
+									{(isData?.price * 0.9 * 3000).toLocaleString("en-US")}
 								</Text>
 
 								<Icon

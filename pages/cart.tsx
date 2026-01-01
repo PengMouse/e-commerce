@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Box, Stack, Icon, Text, SimpleGrid, Image, Flex } from "@chakra-ui/react";
+import { Box, Stack, Icon, Text, SimpleGrid, Image, Flex, Input } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/router";
@@ -9,10 +9,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeItem } from "@/store/cartSlice";
 import PaymentBtn from "@/components/PaymentBtn";
 
+interface Deets {
+	name: string;
+	email: string;
+	phone: number | any;
+	address: string;
+	city: string;
+	state: string;
+	postal_code: string;
+	country: string;
+}
 const Cart = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 
+	const [custDetails, setCustDetails] = useState<Deets>({
+		name: "",
+		email: "",
+		phone: 0,
+		address: "",
+		city: "",
+		state: "",
+		postal_code: "",
+		country: "",
+	});
+
+	const handleDeetsChange = (name: string, value: string) => {
+		setCustDetails({
+			...custDetails,
+			[name]: value,
+		});
+	};
 	const { items } = useSelector((state: any) => state.cart);
 
 	const handleNotification = (status: any, title: any, description: any) => {
@@ -35,6 +62,21 @@ const Cart = () => {
 		const getTotal = items?.map((item: any) => item.quantity * item.price);
 		const sum = getTotal?.reduce((acc: any, curr: any) => acc + curr, 0);
 		setSum(parseFloat(sum.toFixed(2)));
+	}, [items]);
+
+	useEffect(() => {
+		if (items?.length === 0) {
+			setCustDetails({
+				name: "",
+				email: "",
+				phone: 0,
+				address: "",
+				city: "",
+				state: "",
+				postal_code: "",
+				country: "",
+			});
+		}
 	}, [items]);
 
 	return (
@@ -75,156 +117,331 @@ const Cart = () => {
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{getSum}
+						{getSum.toLocaleString("en-US")}
 					</Text>
 					<Box>
-						<PaymentBtn amount={getSum} />
+						<PaymentBtn
+							amount={getSum}
+							name={custDetails.name}
+							email={custDetails.email}
+							phone={custDetails.phone}
+							address={custDetails.address}
+							city={custDetails.city}
+							state={custDetails.state}
+							postal_code={custDetails.postal_code}
+							country={custDetails.country}
+						/>
 					</Box>
 				</Stack>
 			</Flex>
 			<Box h="1px" bg="gray.300" minW="200px" w="full" my={6} />
-			<SimpleGrid columns={{ base: 1, sm: 2, xl: 3 }} w="full" gap={6} maxH="600px" overflow="auto">
-				{items?.map((i: any, index: number) => (
-					<Box key={index} w="full">
-						<Box
-							my={3}
-							py={2}
-							px={6}
-							bg="gray.50"
-							rounded="lg"
-							h="100%"
-							display="flex"
-							flexDirection="column"
-							justifyContent="center"
-						>
-							<Flex
-								justify="space-between"
-								align="top"
-								direction={{ base: "column" }}
-								gap={{ base: 5, lg: 10, xl: 5 }}
-							>
+
+			{items?.length >= 1 && (
+				<Box display="flex" flexDirection={{ base: "column", lg: "row" }} gap={5} w="full">
+					<SimpleGrid
+						columns={{ base: 1, sm: 2, xl: 3 }}
+						w="full"
+						gap={4}
+						maxH="600px"
+						overflow="auto"
+						my={3}
+					>
+						{items?.map((i: any, index: number) => (
+							<Box key={index} w="full" h="fit">
 								<Box
-									justifyContent="center"
-									alignItems="center"
+									py={2}
+									px={6}
+									bg="gray.50"
+									rounded="lg"
+									h="100%"
 									display="flex"
 									flexDirection="column"
-									w="fit"
-									mx="auto"
+									justifyContent="center"
 								>
-									<Box
-										maxW={{ base: "100px", xl: "fit" }}
-										w="fit"
-										h={{ base: "100px", xl: "200px" }}
-										mx="auto"
+									<Flex
+										justify="space-between"
+										align="top"
+										direction={{ base: "column" }}
+										gap={{ base: 5, lg: 10, xl: 5 }}
 									>
-										<Image
-											src={i?.images[0]}
-											objectFit="contain"
-											alt=""
-											h={{ base: "100px", xl: "200px" }}
+										<Box
+											justifyContent="center"
+											alignItems="center"
+											display="flex"
+											flexDirection="column"
 											w="fit"
 											mx="auto"
-										/>
-									</Box>
-								</Box>
+										>
+											<Box
+												maxW={{ base: "100px", xl: "fit" }}
+												w="fit"
+												h={{ base: "100px", xl: "100px" }}
+												mx="auto"
+											>
+												<Image
+													src={i?.images[0]}
+													objectFit="contain"
+													alt=""
+													h={{ base: "100px", xl: "100px" }}
+													w="fit"
+													mx="auto"
+												/>
+											</Box>
+										</Box>
 
-								<Stack w="full">
-									<Text fontFamily="glight" color="black" fontSize="md" lineClamp={1} maxW="xs">
-										<Text as="span" fontFamily="greg" opacity={0.6}>
-											Name:
-										</Text>{" "}
-										{i?.title}
-									</Text>
-									<Stack direction={{ base: "column" }} align={{ base: "start" }} gap={{ base: 2 }}>
-										<Stack direction="row" align="center" gap={6}>
-											<Text
-												fontFamily="glight"
-												color="black"
-												fontSize="md"
-												maxW="xs"
-												textTransform="capitalize"
-											>
+										<Stack w="full">
+											<Text fontFamily="glight" color="black" fontSize="md" lineClamp={1} maxW="xs">
 												<Text as="span" fontFamily="greg" opacity={0.6}>
-													Size:{" "}
-												</Text>
-												{i?.size}
-											</Text>
-											<Text
-												fontFamily="glight"
-												color="black"
-												fontSize="md"
-												maxW="xs"
-												textTransform="capitalize"
-											>
-												<Text as="span" fontFamily="greg" opacity={0.6}>
-													Color:{" "}
-												</Text>
-												{i?.color}
-											</Text>
-											<Text
-												fontFamily="glight"
-												color="black"
-												fontSize="md"
-												lineClamp={1}
-												maxW="xs"
-												textTransform="capitalize"
-											>
-												<Text as="span" fontFamily="greg" opacity={0.6}>
-													Quantity:
+													Name:
 												</Text>{" "}
-												{i?.quantity}
+												{i?.title}
 											</Text>
-										</Stack>
+											<Stack direction={{ base: "column" }} align={{ base: "start" }} gap={{ base: 2 }}>
+												<Flex flexWrap="wrap" align="center" gap={4}>
+													<Text
+														fontFamily="glight"
+														color="black"
+														fontSize="md"
+														maxW="xs"
+														textTransform="capitalize"
+														w="fit"
+													>
+														<Text as="span" fontFamily="greg" opacity={0.6}>
+															Size:{" "}
+														</Text>
+														{i?.size}
+													</Text>
+													<Text
+														fontFamily="glight"
+														color="black"
+														fontSize="md"
+														maxW="xs"
+														textTransform="capitalize"
+														w="fit"
+													>
+														<Text as="span" fontFamily="greg" opacity={0.6}>
+															Color:{" "}
+														</Text>
+														{i?.color}
+													</Text>
+													<Text
+														fontFamily="glight"
+														color="black"
+														fontSize="md"
+														lineClamp={1}
+														maxW="xs"
+														textTransform="capitalize"
+														w="fit"
+													>
+														<Text as="span" fontFamily="greg" opacity={0.6}>
+															Quantity:
+														</Text>{" "}
+														{i?.quantity}
+													</Text>
+												</Flex>
 
-										<Text
-											fontFamily="glight"
-											color="black"
-											fontSize="md"
-											lineClamp={1}
-											maxW="xs"
-											textTransform="capitalize"
-										>
-											<Text as="span" fontFamily="greg" opacity={0.6}>
-												Category:
-											</Text>{" "}
-											{i?.category}
-										</Text>
-									</Stack>
-									<Text fontFamily="gmid" color="black" fontSize="md">
-										<Text as="span" fontFamily="greg" opacity={0.6}>
-											Price:
-											<br />
-										</Text>{" "}
-										<Text textDecoration="line-through" as="span">
-											N
-										</Text>
-										{i?.price}
-									</Text>
-									<Stack w="fit-content" mt={6} direction="column" align="start" gap={1}>
-										<Text
-											color="red"
-											fontFamily="glight"
-											cursor="pointer"
-											onClick={() => handleRemoveItem(i?.id)}
-										>
-											Remove item
-										</Text>
-										<Text fontFamily="gmid" fontSize="xl" mb={-1}>
-											<Text as="span" fontFamily="greg" opacity={0.6}>
-												Total:
-											</Text>{" "}
-											<Text textDecoration="line-through" as="span">
-												N
+												<Text
+													fontFamily="glight"
+													color="black"
+													fontSize="md"
+													lineClamp={1}
+													maxW="xs"
+													textTransform="capitalize"
+												>
+													<Text as="span" fontFamily="greg" opacity={0.6}>
+														Category:
+													</Text>{" "}
+													{i?.category}
+												</Text>
+											</Stack>
+
+											<Text fontFamily="gmid" color="black" fontSize="md">
+												<Text as="span" fontFamily="greg" opacity={0.6}>
+													Price:
+												</Text>{" "}
+												<Text textDecoration="line-through" as="span">
+													N
+												</Text>
+												{(i?.quantity * i?.price).toLocaleString("en-US")}
 											</Text>
-											{i?.quantity * i?.price}
-										</Text>
-									</Stack>
-								</Stack>
-							</Flex>
+											<Stack w="fit-content" direction="column" align="start" gap={1}>
+												<Text
+													color="red"
+													fontFamily="glight"
+													cursor="pointer"
+													onClick={() => handleRemoveItem(i?.id)}
+												>
+													Remove item
+												</Text>
+											</Stack>
+										</Stack>
+									</Flex>
+								</Box>
+							</Box>
+						))}
+					</SimpleGrid>
+
+					<Box
+						maxW={{ base: "full", lg: "xs" }}
+						w="full"
+						flexShrink="none"
+						borderWidth="1px"
+						borderColor="black"
+						rounded="lg"
+					>
+						<Box
+							bg="black"
+							color="white"
+							py={2}
+							px={2}
+							w="full"
+							direction="flex"
+							flexDir="column"
+							justifyContent="center"
+							alignItems="center"
+							flexShrink="none"
+							fontWeight="normal"
+							fontSize="lg"
+							textAlign="center"
+							roundedTop="lg"
+						>
+							Delivery Details
 						</Box>
+						<Stack gap={4} p={4}>
+							{/* Name */}
+							<Box>
+								<Text fontWeight="semibold">Name:</Text>
+								<Input
+									name="name"
+									id="name"
+									value={custDetails?.name}
+									onChange={(e: any) => handleDeetsChange("name", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* email */}
+							<Box>
+								<Text fontWeight="semibold">Email:</Text>
+								<Input
+									name="email"
+									id="email"
+									type="email"
+									value={custDetails?.email}
+									onChange={(e: any) => handleDeetsChange("email", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* phone */}
+							<Box>
+								<Text fontWeight="semibold">Phone:</Text>
+								<Input
+									name="phone"
+									id="phone"
+									type="tel"
+									value={custDetails?.phone}
+									onChange={(e: any) => handleDeetsChange("phone", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* address */}
+							<Box>
+								<Text fontWeight="semibold">Address:</Text>
+								<Input
+									name="address"
+									id="address"
+									value={custDetails?.address}
+									onChange={(e: any) => handleDeetsChange("address", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* city */}
+							<Box>
+								<Text fontWeight="semibold">City:</Text>
+								<Input
+									name="city"
+									id="city"
+									value={custDetails?.city}
+									onChange={(e: any) => handleDeetsChange("city", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* state */}
+							<Box>
+								<Text fontWeight="semibold">State:</Text>
+								<Input
+									name="state"
+									id="state"
+									value={custDetails?.state}
+									onChange={(e: any) => handleDeetsChange("state", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* Postal code */}
+							<Box>
+								<Text fontWeight="semibold">Postal Code:</Text>
+								<Input
+									name="postal_code"
+									id="postal_code"
+									value={custDetails?.postal_code}
+									onChange={(e: any) => handleDeetsChange("postal_code", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+
+							{/* Country */}
+							<Box>
+								<Text fontWeight="semibold">Country:</Text>
+								<Input
+									name="country"
+									id="country"
+									value={custDetails?.country}
+									onChange={(e: any) => handleDeetsChange("country", e?.target?.value)}
+									color="black"
+									bg="white"
+									borderWidth="1px"
+									borderColor="black"
+									rounded="lg"
+								/>
+							</Box>
+						</Stack>
 					</Box>
-				))}
-			</SimpleGrid>
+				</Box>
+			)}
+
 			{items?.length === 0 && (
 				<Text color="#333333" fontFamily="greg" fontSize={{ base: "2xl", lg: "3xl" }} mx="auto">
 					Your cart is empty! 😒

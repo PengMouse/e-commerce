@@ -41,7 +41,7 @@ const Login = () => {
 			});
 			dispatch(storeUserRefreshToken(result?._tokenResponse?.refreshToken));
 			if (result.user?.emailVerified === true) {
-				handleNotification("success", "Login successful", "Welcome aboard");
+				handleNotification("success", "Login successful", "Welcome onboard");
 			}
 			router.push("/");
 		} catch (error: any) {
@@ -69,7 +69,7 @@ const Login = () => {
 					Login
 				</Text>
 				<Box px={{ base: 3, sm: 6, lg: 10 }}>
-					<Stack gap={3} maxW="xl" mx="auto" w="full">
+					<Stack gap={3} maxW="sm" mx="auto" w="full">
 						{/* sign in with google */}
 						<Button
 							disabled={loading}
@@ -77,6 +77,7 @@ const Login = () => {
 							rounded="xl"
 							borderWidth="2px"
 							borderColor="#111111"
+							bg="transparent"
 							py={7}
 							_hover={{ bg: "#111111", color: "white" }}
 							color="#111111"
@@ -85,13 +86,13 @@ const Login = () => {
 								direction="row"
 								align="center"
 								w="full"
-								gap={4}
+								gap={3}
 								transition="all 0.3s ease-in-out"
 								justify="center"
 								onClick={handleGoogleLogin}
 							>
 								<Icon as={FaGoogle} boxSize={6} />
-								<Text fontWeight="bold" fontSize="xl">
+								<Text fontWeight="bold" fontSize="lg">
 									SIGN IN WITH GOOGLE
 								</Text>
 							</Stack>

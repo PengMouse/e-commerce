@@ -5,18 +5,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import ReactStars from "react-stars";
-const ProdCard = ({
-	img,
-	name,
-	rating,
-	quantity,
-	price,
-	link,
-	favFunc,
-	cartFunc,
-	toggle,
-	discount,
-}: any) => {
+const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc, toggle }: any) => {
 	return (
 		<Box cursor="pointer" w="full">
 			<Box
@@ -100,7 +89,7 @@ const ProdCard = ({
 						</Stack>
 					</Flex>
 					<Text
-						fontSize={{ base: "2xl", sm: "3xl" }}
+						fontSize={{ base: "2xl" }}
 						fontFamily={{ base: "greg", lg: "gmid" }}
 						color="black"
 						w="fit-content"
@@ -108,10 +97,10 @@ const ProdCard = ({
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{(discount * 1600).toLocaleString("en-US")}
+						{(price * 0.9 * 3000).toLocaleString("en-US")}
 					</Text>
 					<Text
-						fontSize="md"
+						fontSize="xl"
 						fontFamily="greg"
 						color="red"
 						w="fit-content"
@@ -121,7 +110,7 @@ const ProdCard = ({
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{(price * 1600).toLocaleString("en-US")}
+						{(price * 4000).toLocaleString("en-US")}
 					</Text>
 				</Box>
 			</Link>
