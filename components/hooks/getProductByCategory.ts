@@ -16,7 +16,7 @@ const useGetProductByCat = () => {
 			const { data } = await axios.get(
 				`${
 					process.env.NEXT_PUBLIC_BASEURL
-				}/products/category/${product}?limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,discountPercentage&sortBy=${sortby}&order=${
+				}/products/category/${product}?limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,category,discountPercentage&sortBy=${sortby}&order=${
 					order ?? "asc"
 				}`
 			);

@@ -10,7 +10,7 @@ const useGetProducts = () => {
 			const { data } = await axios.get(
 				`${
 					process.env.NEXT_PUBLIC_BASEURL
-				}/products?limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,discountPercentage&sortBy=${
+				}/products?limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,category,discountPercentage&sortBy=${
 					sortby ? sortby : ""
 				}&order=${order ?? "asc"}`
 			);
