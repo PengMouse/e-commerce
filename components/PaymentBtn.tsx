@@ -3,7 +3,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Toaster, toaster } from "./ui/toaster";
+import { toaster } from "./ui/toaster";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { clearCart } from "@/store/cartSlice";
@@ -39,14 +39,15 @@ const PaymentBtn = ({
 	const [fraudDetectID, setFraudDetectTransID] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const handleNotification = (status: any, title: any, description: any) => {
+	const handleNotification = (status: any, title: any, description: any, duration?: number) => {
 		toaster.create({
 			title: `${title}`,
 			description: `${description}`,
 			type: `${status}`,
-			duration: 3000,
+			duration: duration ?? 3000,
 		});
 	};
+
 	useEffect(() => {
 		// Dynamically import only on client side
 		import("@paystack/inline-js").then((module) => {
@@ -90,6 +91,12 @@ const PaymentBtn = ({
 			console.log(data);
 			setLoading(false);
 			setFraudDetectTransID(data?.transaction_id);
+			handleNotification(
+				"success",
+				`STATUS: ${data?.status.toUpperCase()}`,
+				`DECISION:  ${data?.decision}`,
+				7000
+			);
 
 			if (data?.status === "success" && data?.decision === "ALLOW" && data?.is_fraud === false) {
 				const paystack = new Paystack();
@@ -163,17 +170,16 @@ const PaymentBtn = ({
 					inset={0}
 					w="full"
 					minH="100vh"
-					bg="rgba(0,0,0,0.9)"
+					bg="rgba(0,0,0,0.1)"
 					display="flex"
 					justifyContent="center"
 					alignItems="center"
-					zIndex={9999}
+					zIndex={1}
 				>
 					<Spinner color="white" size="lg" />
 				</Box>
 			)}
 
-			<Toaster />
 			<Button
 				fontFamily="glight"
 				bg="black"

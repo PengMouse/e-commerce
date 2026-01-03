@@ -7,6 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { Toaster } from "@/components/ui/toaster";
 export default function App({ Component, pageProps }: AppProps) {
 	const router = useRouter();
 	if (router.pathname.includes("/login")) {
@@ -33,6 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			<ReduxProvider store={store}>
 				<PersistGate loading={null} persistor={persistor}>
 					<Provider>
+						<Toaster />
 						<Layout>
 							<Component {...pageProps} />
 						</Layout>
