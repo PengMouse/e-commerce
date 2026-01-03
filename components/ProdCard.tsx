@@ -97,7 +97,7 @@ const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc,
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{(price * 0.9 * 3000).toLocaleString("en-US")}
+						{(price * 0.5 * 1600).toLocaleString("en-US")}
 					</Text>
 					<Text
 						fontSize="xl"
@@ -110,7 +110,7 @@ const ProdCard = ({ img, name, rating, quantity, price, link, favFunc, cartFunc,
 						<Text textDecoration="line-through" as="span">
 							N
 						</Text>
-						{(price * 4000).toLocaleString("en-US")}
+						{(price * 1600).toLocaleString("en-US")}
 					</Text>
 				</Box>
 			</Link>

@@ -71,7 +71,7 @@ const ViewPage = () => {
 				color: activeColor,
 				size: activeSize,
 				quantity: qty,
-				price: data?.price * 0.9 * 3000,
+				price: data?.price * 0.5 * 1600,
 			})
 		);
 		handleNotification("info", "🤑 Item added to cart", `${name}`);
@@ -235,7 +235,7 @@ const ViewPage = () => {
 									<Text as="span" textDecoration="line-through">
 										N
 									</Text>
-									{(isData?.price * 0.9 * 3000).toLocaleString("en-US")}
+									{(isData?.price * 0.5 * 1600).toLocaleString("en-US")}
 								</Text>
 
 								<Icon
@@ -443,7 +443,7 @@ const ViewPage = () => {
 											roundedRight="lg"
 											transition=" ease-in-out  0.3s"
 											cursor="pointer"
-											disabled={items[0]?.quantity === isData?.stock}
+											disabled={items?.[0]?.quantity === isData?.stock}
 										>
 											<Icon as={FiPlus} w={6} h={6} fontFamily="greg" />
 										</Button>
