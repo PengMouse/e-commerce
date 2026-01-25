@@ -95,63 +95,63 @@ const PaymentBtn = ({
 				"success",
 				`STATUS: ${data?.status.toUpperCase()}`,
 				`DECISION:  ${data?.decision}`,
-				7000
+				7000,
 			);
 
 			if (data?.status === "success" && data?.decision === "ALLOW" && data?.is_fraud === false) {
-				const paystack = new Paystack();
+				setTimeout(() => {
+					const paystack = new Paystack();
 
-				paystack.newTransaction({
-					key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_TEST_KEY!,
-					email: email ?? userData?.email,
-					amount: amount * 100, // Convert to kobo if using NGN
-					currency: "NGN",
-					first_name: name ?? userData?.displayName,
-					metadata: {
-						custom_fields: items.map((item: any, index: number) => ({
-							display_name: `Product ${index + 1}`,
-							variable_name: `product_${index + 1}`,
-							value: `ID: ${item.id}, Name: ${item.title}, Price: ${item.price}, Qty: ${
-								item.quantity
-							}, Size:${item?.size ? item?.size : "-"}, Category:${
-								item?.category ? item?.category : "-"
-							}, Color:${item?.color ? item?.color : "-"}`,
-						})),
-						customer_name: name ?? userData?.displayName,
-						customer_phoneNumber: phone ?? userData?.phoneNumber,
-						shipping_address: {
-							address,
-							city,
-							state,
-							postal_code,
-							country,
+					paystack.newTransaction({
+						key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_TEST_KEY!,
+						email: email ?? userData?.email,
+						amount: amount * 100,
+						currency: "NGN",
+						first_name: name ?? userData?.displayName,
+						metadata: {
+							custom_fields: items.map((item: any, index: number) => ({
+								display_name: `Product ${index + 1}`,
+								variable_name: `product_${index + 1}`,
+								value: `ID: ${item.id}, Name: ${item.title}, Price: ${item.price}, Qty: ${
+									item.quantity
+								}, Size:${item?.size ?? "-"}, Category:${item?.category ?? "-"}, Color:${item?.color ?? "-"}`,
+							})),
+							customer_name: name ?? userData?.displayName,
+							customer_phoneNumber: phone ?? userData?.phoneNumber,
+							shipping_address: {
+								address,
+								city,
+								state,
+								postal_code,
+								country,
+							},
+							fraud_detection_id: fraudDetectID,
 						},
-						fraud_detection_id: fraudDetectID,
-					},
-					onSuccess: async (transaction: any) => {
-						setLoading(true);
-						try {
-							const { data } = await axios.get(`/api/verify?reference=${transaction.reference}`);
-							console.log(data);
-							if (data?.message === "Payment verified") {
-								alert(`Success! Reference: ${transaction.reference}`);
-								dispatch(clearCart());
+						onSuccess: async (transaction: any) => {
+							setLoading(true);
+							try {
+								const { data } = await axios.get(`/api/verify?reference=${transaction.reference}`);
+								console.log(data);
+								if (data?.message === "Payment verified") {
+									alert(`Success! Reference: ${transaction.reference}`);
+									dispatch(clearCart());
+									setLoading(false);
+								}
+							} catch (err) {
+								console.log(err);
 								setLoading(false);
 							}
-						} catch (err) {
-							console.log(err);
+						},
+						onCancel: () => {
+							alert("Transaction cancelled");
 							setLoading(false);
-						}
-					},
-					onCancel: () => {
-						alert("Transaction cancelled");
-						setLoading(false);
-					},
-					onError: (error: any) => {
-						alert(`Error: ${error.message}`);
-						setLoading(false);
-					},
-				});
+						},
+						onError: (error: any) => {
+							alert(`Error: ${error.message}`);
+							setLoading(false);
+						},
+					});
+				}, 3000); // Delay by 3 seconds
 			} else {
 				setLoading(false);
 				return;
@@ -170,7 +170,7 @@ const PaymentBtn = ({
 					inset={0}
 					w="full"
 					minH="100vh"
-					bg="rgba(0,0,0,0.1)"
+					bg="rgba(0,0,0,0.01)"
 					display="flex"
 					justifyContent="center"
 					alignItems="center"
@@ -192,6 +192,7 @@ const PaymentBtn = ({
 				transition="background-color ease-in-out 0.3s"
 				rounded="xl"
 				onClick={handlePay}
+				disabled={loading}
 			>
 				🤑 Checkout
 			</Button>

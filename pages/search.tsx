@@ -80,7 +80,7 @@ const Search = () => {
 	};
 
 	const handleAddToCart = (name: any, data: any) => {
-		dispatch(addItem(data));
+		dispatch(addItem({ ...data, price: data?.price * 0.5 * 1600 }));
 		handleNotification("info", "🤑 Item added to cart", name);
 	};
 
@@ -263,14 +263,14 @@ const Search = () => {
 									data={i}
 									favFunc={() => {
 										handleAddtoFavorite(i.id, i?.title);
-										dispatch(toggleFavorite(i));
+										dispatch(toggleFavorite({ ...i, price: i?.price * 0.5 * 1600 }));
 									}}
 									cartFunc={() => handleAddToCart(i?.title, i)}
 									toggle={favItems.some((item: any) => item.id === i?.id)}
 									discount={i?.discountPercentage}
 								/>
 							</Box>
-					  ))}
+						))}
 			</SimpleGrid>
 
 			{searchData?.products?.length === 0 && !loading && (

@@ -351,14 +351,14 @@ const Products = () => {
 											data={i}
 											favFunc={() => {
 												handleAddtoFavorite(i.id, i?.title);
-												dispatch(toggleFavorite(i));
+												dispatch(toggleFavorite({ ...i, price: i?.price * 0.5 * 1600 }));
 											}}
 											cartFunc={() => handleAddToCart(i?.title, i)}
 											toggle={favItems.some((item: any) => item.id === i?.id)}
 											discount={i?.discountPercentage}
 										/>
 									</Box>
-							  ))}
+								))}
 					</SimpleGrid>
 				</Box>
 			)}
@@ -405,14 +405,14 @@ const Products = () => {
 									data={i}
 									favFunc={() => {
 										handleAddtoFavorite(i.id, i?.title);
-										dispatch(toggleFavorite(i));
+										dispatch(toggleFavorite({ ...i, price: i?.price * 0.5 * 1600 }));
 									}}
 									cartFunc={() => handleAddToCart(i?.title, i)}
 									toggle={favItems.some((item: any) => item.id === i?.id)}
 									discount={i?.discountPercentage}
 								/>
 							</Box>
-					  ))}
+						))}
 			</SimpleGrid>
 
 			{/* Pagination */}
