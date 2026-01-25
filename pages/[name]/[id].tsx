@@ -61,7 +61,7 @@ const ViewPage = () => {
 		} else if (isFavorite) {
 			handleNotification("info", "😏 Item removed from favorite", name);
 		}
-		dispatch(toggleFavorite(isData));
+		dispatch(toggleFavorite({ ...isData, price: isData?.price * 0.5 * 1600 }));
 	};
 
 	const handleAddToCart = (data: any, name: any) => {
@@ -72,7 +72,7 @@ const ViewPage = () => {
 				size: activeSize,
 				quantity: qty,
 				price: data?.price * 0.5 * 1600,
-			})
+			}),
 		);
 		handleNotification("info", "🤑 Item added to cart", `${name}`);
 	};

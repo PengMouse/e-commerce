@@ -10,6 +10,7 @@ const Favorite = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const { favItems } = useSelector((state: any) => state.favorite);
+
 	const handleNotification = (status: any, title: any, description: any) => {
 		toaster.create({
 			title: `${title}`,
@@ -168,7 +169,10 @@ const Favorite = () => {
 											Price:
 											<br />
 										</Text>{" "}
-										${i?.price}
+										<Text textDecoration="line-through" as="span">
+											N
+										</Text>
+										{i?.price.toLocaleString("en-US")}
 									</Text>
 									<Stack w="fit-content" mt={6} direction="column" align="start" gap={1}>
 										<Text
