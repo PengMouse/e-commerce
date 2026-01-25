@@ -72,6 +72,7 @@ const ViewPage = () => {
 				size: activeSize,
 				quantity: qty,
 				price: data?.price * 0.5 * 1600,
+				category: data?.category,
 			}),
 		);
 		handleNotification("info", "🤑 Item added to cart", `${name}`);

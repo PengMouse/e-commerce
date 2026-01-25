@@ -45,6 +45,7 @@ const PaymentBtn = ({
 			description: `${description}`,
 			type: `${status}`,
 			duration: duration ?? 3000,
+			closable: true,
 		});
 	};
 
@@ -89,19 +90,24 @@ const PaymentBtn = ({
 		try {
 			const { data } = await axios.post("https://fraud-api-bejd.onrender.com/predict", reqBody);
 			console.log(data);
-			setLoading(false);
 			setFraudDetectTransID(data?.transaction_id);
-			handleNotification(
-				"success",
-				`STATUS: ${data?.status.toUpperCase()}`,
-				`DECISION:  ${data?.decision}`,
-				7000,
-			);
-
-			if (data?.status === "success" && data?.decision === "ALLOW" && data?.is_fraud === false) {
+			if (data?.status === "success" && data?.decision === "BLOCK" && data?.is_fraud === true) {
+				setLoading(false);
+				handleNotification("error", `STATUS: FRAUD DETECTED`, `DECISION:  ${data?.decision}`, 7000);
+				return;
+			} else if (
+				data?.status === "success" &&
+				data?.decision === "ALLOW" &&
+				data?.is_fraud === false
+			) {
+				handleNotification(
+					"success",
+					`STATUS: ${data?.status.toUpperCase()}`,
+					`DECISION:  ${data?.decision}`,
+					7000,
+				);
 				setTimeout(() => {
 					const paystack = new Paystack();
-
 					paystack.newTransaction({
 						key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_TEST_KEY!,
 						email: email ?? userData?.email,
@@ -151,10 +157,7 @@ const PaymentBtn = ({
 							setLoading(false);
 						},
 					});
-				}, 3000); // Delay by 3 seconds
-			} else {
-				setLoading(false);
-				return;
+				}, 3000);
 			}
 		} catch (err: any) {
 			console.log(err);

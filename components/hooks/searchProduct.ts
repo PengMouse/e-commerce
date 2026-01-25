@@ -9,16 +9,16 @@ const useSearchProduct = () => {
 		limit: number = 20,
 		skip: number = 0,
 		sortby?: string,
-		order?: string
+		order?: string,
 	) => {
 		setLoading(true);
 		try {
 			const { data } = await axios.get(
 				`${process.env.NEXT_PUBLIC_BASEURL}/products/search?q=${
 					query ?? ""
-				}&limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,discountPercentage&sortBy=${sortby}&order=${
+				}&limit=${limit}&skip=${skip}&select=title,price,images,rating,stock,category,discountPercentage&sortBy=${sortby}&order=${
 					order ?? "asc"
-				}`
+				}`,
 			);
 			setIsData(data);
 			setLoading(false);
