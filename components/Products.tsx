@@ -81,7 +81,7 @@ const Products = () => {
 	};
 
 	const handleAddToCart = (name: any, data: any) => {
-		dispatch(addItem({ ...data, price: data?.price * 0.5 * 1600 }));
+		dispatch(addItem({ ...data, price: data?.price * 0.5 * 1600, category: data?.category }));
 		handleNotification("info", "🤑 Item added to cart", name);
 	};
 
